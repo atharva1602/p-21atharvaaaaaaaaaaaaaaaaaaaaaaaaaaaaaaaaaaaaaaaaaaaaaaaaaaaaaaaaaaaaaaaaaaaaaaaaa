@@ -1,78 +1,72 @@
-var bullet,thickness,wall;
-var speed,weight;
+
+var wall, thickness;
+var bullet,speed, weight;
+
 function setup() {
-  createCanvas(800,400);
+  createCanvas(1600, 400);
+
+  speed=random(223,321)
+  weight=random(30,52)
+
 
   thickness=random(22,83)
 
-  bullet=createSprite(50, 200, 50, 10);
-  wall=createSprite(1200,200,thickness,100)
 
-  speed=random(223,321);
-  weight=random(30,52);
 
-  bullet.velocityX = speed;
+
+  
+    bullet=createSprite(50, 200, 50,5);  
+    bullet.velocityX = speed;
+    bullet.shapeColor=color(255);
+
+ 
+  	
+    
+    wall=createSprite(1200, 200, thickness, height/2);  
+
+    wall.shapeColor=color(230,230,230);
+  //wall.shapeColor=color(80,80,80)
 }
+
 
 function draw() {
-  background('black');
+  background(0);  
+  //bullet.sprite.collide(wall.sprite,calculateDeformation)
+  if(hasCollided(bullet, wall))
+  {
+  	bullet.velocityX=0;
+  	var damage=0.5 * weight * speed* speed/(thickness *thickness *thickness);
 
-  if(wall.x-bullet.x<(bullet.width+wall.width)/2) { 
+  	
+	if(damage>10)
+	{
+		wall.shapeColor=color(255,0,0);
+		
+	}
 
-  bullet.velocityX=0;
+	
 
-  var deformation=0.5 *weight * speed * speed/22509;
-
-  if(deformation>180){
-
-    bullet.shapeColor='white';
-
-  }
-}
-
-  if(deformation<180 && deformation>100){
-
-    bullet.shapeColor='white';
-
-  }
-
-  if(deformation<100){
-
-  bullet.shapeColor='white';
-
+	if(damage<10)
+	{
+		wall.shapeColor=color(0,255,0);
+	}
+	
   }
 
-if (hasCollided(bullet,wall)){
 
-  bullet.velocityX=0;
-  var damage=0.5 * weight * speed * speed/(thickness *thickness *thickness);
-
-  if (damage>10){
-
-    wall.shapeColor='red';
-
-  }
-
-  if (damage<10){
-
-  wall.shapeColor="purple"
-
-  }
-
-}
   drawSprites();
+ 
 }
 
-function hasCollided (bullet,wall){
 
-bulletRightEdge=lbullet.x +lbullet.width;
-wallLeftEdge=lwall.x;
-
-if(bulletRightEdge>=wallLeftEdge){
-
-  return true
-
+function hasCollided(lbullet, lwall)
+{
+	bulletRightEdge=lbullet.x +lbullet.width;
+	wallLeftEdge=lwall.x;
+	if (bulletRightEdge>=wallLeftEdge)
+	{
+		return true
+	}
+	return false;
 }
-return false;
 
-}
